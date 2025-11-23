@@ -8,6 +8,11 @@ Travel agent splitting Gemini NLU from Python logic to prevent hallucinations an
 
 Standard Large Language Models (LLMs) struggle with transactional accuracy and state management in production scenarios. In travel booking, a generic chatbot might hallucinate flight prices or invent nonexistent flight IDs. More critically, they suffer from context loss. If a user searches for flights in Turn 1 and says "book the cheapest one" in Turn 2, the model often forgets the specific options it just provided. For real-world applications, these aren't just bugs, they're deal-breakers.
 
+
+#FlowChart
+
+![FlowChart](https://github.com/Jotaro1569/travel-booking-agent/blob/main/flowchart.png)
+
 ## Why Agents?
 
 Agents solve this by separating what LLMs do well (understanding intent) from what they don't (executing deterministic logic). A raw LLM can't reliably calculate "next Friday" or manage database transactions. An agentic architecture uses the LLM for Natural Language Understanding while delegating critical operations like date math, entity resolution, and booking commits to deterministic Python code. This hybrid approach keeps the system conversational while ensuring factual accuracy.

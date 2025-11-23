@@ -1,6 +1,6 @@
 # Travel Booking Agent: Hybrid Logic-LLM Architecture
 
-![Project Thumbnail](thumbnail.png)
+![Project Thumbnail](Project_thumbnail.png)
 
 Travel agent splitting Gemini NLU from Python logic to prevent hallucinations and maintain conversation state across turns.
 

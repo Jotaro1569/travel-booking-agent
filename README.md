@@ -35,7 +35,7 @@ See full output in [`demo_output.txt`](https://github.com/Jotaro1569/travel-book
 ## Installation
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/travel-booking-agent.git
+git clone https://github.com/Jotaro1569/travel-booking-agent.git
 cd travel-booking-agent
 
 # Install dependencies

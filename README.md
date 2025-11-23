@@ -30,7 +30,7 @@ Agents solve this by separating what LLMs do well (understanding intent) from wh
 - **Turn 2:** User says "book the Lufthansa one for Robin." System resolves "Lufthansa" to flight ID LH-5614 using memory and executes booking.
 - **Turn 3:** User changes mind: "Actually, book the cheapest option." System re-resolves to Air France (AF-1923 at $300) and creates new reservation, all without re-searching.
 
-See full output in [`demo_output.txt`](demo_output.txt)
+See full output in [`demo_output.txt`](https://github.com/Jotaro1569/travel-booking-agent/blob/main/demon_output.txt)
 
 ## Installation
 ```bash

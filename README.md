@@ -9,7 +9,7 @@ Travel agent splitting Gemini NLU from Python logic to prevent hallucinations an
 Standard Large Language Models (LLMs) struggle with transactional accuracy and state management in production scenarios. In travel booking, a generic chatbot might hallucinate flight prices or invent nonexistent flight IDs. More critically, they suffer from context loss. If a user searches for flights in Turn 1 and says "book the cheapest one" in Turn 2, the model often forgets the specific options it just provided. For real-world applications, these aren't just bugs, they're deal-breakers.
 
 
-#FlowChart
+# FlowChart
 
 ![FlowChart](https://github.com/Jotaro1569/travel-booking-agent/blob/main/flowchart.png)
 

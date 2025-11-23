@@ -9,6 +9,53 @@ Travel agent splitting Gemini NLU from Python logic to prevent hallucinations an
 Standard Large Language Models (LLMs) struggle with transactional accuracy and state management in production scenarios. In travel booking, a generic chatbot might hallucinate flight prices or invent nonexistent flight IDs. More critically, they suffer from context loss. If a user searches for flights in Turn 1 and says "book the cheapest one" in Turn 2, the model often forgets the specific options it just provided. For real-world applications, these aren't just bugs, they're deal-breakers.
 
 
+## Agent Architecture
+
+The `TravelAgentSystem` is a multi-agent system composed of a main orchestrator agent and several specialized sub-components.
+
+### Main Agent
+
+**`TravelAgentSystem`**: This is the main agent that interacts with the user. It manages the workflow of processing booking requests and delegates tasks to the appropriate sub-components.
+
+### Sub-Components
+
+The sub-components are defined in the `TravelAgentSystem` class. Each component is responsible for a specific task in the booking process:
+
+- **`_extract_parameters`**: Parses user input into structured JSON using Gemini 2.5 Flash Lite. Extracts intent (SEARCH/BOOK/GENERAL), origin, destination, date references, and passenger names without making decisions.
+
+- **`_resolve_date`**: Handles temporal logic deterministically. Calculates actual dates from natural language references like "tomorrow" or "today" using Python's datetime library to prevent LLM hallucination.
+
+- **`_handle_search`**: Orchestrates the flight search workflow. Resolves dates, calls inventory tools, updates memory cache, and formats results for the user.
+
+- **`_handle_booking`**: Manages the booking workflow. Performs entity resolution to match user references ("cheapest", "Air France") to specific flights in memory, then executes reservation via tools.
+
+- **`_generate_response`**: Formats system outputs into natural language using Gemini's NLG capabilities. Takes deterministic tool results and creates professional, user-friendly responses.
+
+- **`AgentMemory`**: A stateful blackboard that persists flight search results across conversation turns. Enables entity resolution by caching flight data and providing methods to query by airline name, flight ID, or price.
+
+### Tools
+
+The agents use the following custom tools:
+
+- **`_search_flight_inventory`**: Searches available flights for a given origin, destination, and date. Returns flight data including IDs, airlines, departure times, and prices.
+
+- **`_commit_reservation`**: Executes booking transactions. Takes a flight ID and passenger name, generates a unique PNR (Passenger Name Record), and returns confirmation status.
+
+The agents also use the built-in `Gemini 2.5 Flash Lite` model for NLU and NLG tasks.
+
+### Workflow
+
+The `TravelAgentSystem` follows this workflow:
+
+1. **Analyze Input**: The user provides a request. The agent analyzes it to extract structured parameters and intent.
+
+2. **Plan**: The agent delegates the task to either the search handler or booking handler based on detected intent.
+
+3. **Refine**: For searches, the system calculates dates deterministically. For bookings, it performs entity resolution using cached memory to identify the target flight.
+
+4. **Execute**: Python code executes tool calls (`_search_flight_inventory` or `_commit_reservation`) without LLM involvement to ensure accuracy.
+
+5. **Respond**: The agent formats tool outputs into natural language and presents results to the user. Search results are cached in memory for future booking requests.
 # FlowChart
 
 ![FlowChart](https://github.com/Jotaro1569/travel-booking-agent/blob/main/flowchart.png)

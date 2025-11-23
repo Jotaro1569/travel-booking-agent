@@ -68,6 +68,4 @@ python travel_agent.py
 MIT License - feel free to use this for learning!
 ```
 
-## Step 4: Create requirements.txt
-```
-google-generativeai>=0.3.0
+
